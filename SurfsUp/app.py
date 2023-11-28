@@ -91,34 +91,34 @@ def tobs():
 @app.route("/api/v1.0/<start>/<end>")
 def start_end_date(start, end):
 
-    start_end_date_tobs_results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\ 
-    filter(Measurement.date >= start).\
-    filter(Measurement.date <= end).all()
+    start_end_date_tobs_results = session.query(func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+        filter(Measurement.date >= start).\
+        filter(Measurement.date <= end).all()
     session.close()
 
-    #Return a JSON list of the minimum temperature, the average temperature, and the maximum temperature for a specified start or start-end range.
+    # Return a JSON list of the minimum temperature, the average temperature, and the maximum temperature for a specified start or start-end range.
     start_end_tobs_date_values = []
-    for min, avg, max in start_end_date_tobs_results:
+    for min_temp, avg_temp, max_temp in start_end_date_tobs_results:
         start_end_tobs_date_dict = {}
-        start_end_tobs_date_dict["min_temp"] = min
-        start_end_tobs_date_dict["avg_temp"] = avg
-        start_end_tobs_date_dict["max_temp"] = max
-        start_end_tobs_date_values(start_end_tobs_date_dict)
+        start_end_tobs_date_dict["min_temp"] = min_temp
+        start_end_tobs_date_dict["avg_temp"] = avg_temp
+        start_end_tobs_date_dict["max_temp"] = max_temp
+        start_end_tobs_date_values.append(start_end_tobs_date_dict)
 
     return jsonify(start_end_tobs_date_values)
 
 
     #For a specified start, calculate TMIN, TAVG, and TMAX for all the dates greater than or equal to the start date.
     results = session.query(func.min(Measurement.tobs),\
-                            func.avg(Measurement.tobs), func.mac(Measurement.tobs)).\
+                            func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
                                  filter(Measurement.date >= start).all()
     session.close()
    
 
     #For a specified start date and end date, calculate TMIN, TAVG, and TMAX for the dates from the start date to the end date, inclusive.
     results = session.query(func.min(Measurement.tobs),\
-                            func.avg(Measurement.tobs), func.mac(Measurement.tobs)).\
-                                 filter(Measurement.date >= start).filter(Measurement.date <= end date.all)()
+                            func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
+                                 filter(Measurement.date >= start).filter(Measurement.date <= end_date.all)()
     session.close()
 
 
